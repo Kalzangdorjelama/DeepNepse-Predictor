@@ -112,12 +112,15 @@ function StockPrediction() {
     loadAllPrices();
   }, []);
 
-  const today = new Date().toLocaleDateString("en-US", {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const options = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  });
+  };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-gray-900 text-white p-8">
@@ -216,7 +219,9 @@ function StockPrediction() {
             {symbol?.toUpperCase()}
           </span>
         </p>
-        <span className="text-lg">{today}</span>
+        <span className="text-lg">
+          {tomorrow.toLocaleDateString("en-US", options)}
+        </span>
       </div>
 
       {status && (

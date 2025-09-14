@@ -75,8 +75,4 @@ combined_df.dropna(inplace=True)
 # Sort by date
 combined_df.sort_index(inplace=True)
 
-<<<<<<< HEAD
 combined_df.to_csv("17_commercial_bank.csv")
-=======
-combined_df.to_csv("18_commercial_bank.csv")
->>>>>>> ec29de46a8be93afc49edead5173f7ebe66d5424
