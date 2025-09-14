@@ -59,7 +59,7 @@ function StockPrediction() {
       const chartData = [
         ...historyData,
         {
-          date: "Predicted",
+          date: "Predicted Price",
           price: +average,
           lstm: +lstm,
           gru: +gru,
@@ -228,7 +228,7 @@ function StockPrediction() {
           {/* Chart Area */}
           <div className="md:col-span-2 bg-white/10 backdrop-blur-lg p-4 rounded-xl shadow-lg">
             <h2 className="text-lg font-bold mb-3">
-              Price Trend & Predictions
+              Closing Price Trend & Predictions
             </h2>
             <div className="h-90">
               <ResponsiveContainer width="100%" height={400}>
