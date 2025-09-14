@@ -166,14 +166,18 @@ def predict(req: PredictRequest):
     if not results:
         raise HTTPException(status_code=404, detail=f"No trained models found for {symbol}")
 
-    # Extract last 3 closing prices for history
+    # Extract last 3 closing prices (pad with None if missing)
     closes = df["Close"].dropna().tolist()
-    history = []
-    if len(closes) >= 3:
-        history = [
-            {"date": "Day-3 Actual Price", "price": float(closes[-3])},
-            {"date": "Day-2 Actual Price", "price": float(closes[-2])},
-            {"date": "Yesterday Actual Price", "price": float(closes[-1])},
-        ]
+    closes_last3 = closes[-3:] if len(closes) >= 3 else closes
+
+    # Ensure always 3 entries (pad if needed)
+    while len(closes_last3) < 3:
+        closes_last3.insert(0, None)  # prepend None for missing days
+
+    history = [
+        {"date": "Day-3 Actual Price", "price": float(closes_last3[-3]) if closes_last3[-3] is not None else None},
+        {"date": "Day-2 Actual Price", "price": float(closes_last3[-2]) if closes_last3[-2] is not None else None},
+        {"date": "Yesterday Actual Price", "price": float(closes_last3[-1]) if closes_last3[-1] is not None else None},
+    ]
 
     return {"symbol": symbol, "predictions": results, "history": history}

@@ -35,7 +35,6 @@ symbols = [
   "GBIME",
   "HBL",
   "KBL",
-  "LSL",
   "MBL",
   "NABIL",
   "NBL",
@@ -76,4 +75,4 @@ combined_df.dropna(inplace=True)
 # Sort by date
 combined_df.sort_index(inplace=True)
 
-combined_df.to_csv("15_commercial_bank.csv")
+combined_df.to_csv("17_commercial_bank.csv")
