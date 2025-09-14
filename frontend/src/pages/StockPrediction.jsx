@@ -41,7 +41,7 @@ function StockPrediction() {
             ...historyData,
             {
               date: "Predicted",
-              price: +average, // extend blue line to prediction
+              price: +average,  // extend blue line to prediction
               lstm: +lstm,
               gru: +gru,
               average: +average,
