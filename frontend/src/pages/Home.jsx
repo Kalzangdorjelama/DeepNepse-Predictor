@@ -83,7 +83,7 @@ function Home() {
         {/* Dropdown + Predict Button */}
       </motion.section>
 
-      <div className="-mt-1 flex justify-center relative">
+      <div className="-mt-10 flex justify-center relative">
         <select
           disabled={loading || !symbols.length}
           value={symbol}
@@ -110,7 +110,7 @@ function Home() {
 
       {/* Call to Action */}
       <motion.section
-        className="py-20 text-center bg-gray-800 text-white mt-10 mx-3"
+        className="mt-35 py-20 text-center bg-gray-800 text-white mx-3"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
