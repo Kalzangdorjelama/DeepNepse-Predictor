@@ -41,7 +41,7 @@ function StockPrediction() {
             ...historyData,
             {
               date: "Predicted",
-              price: +average, // ✅ extend blue line to prediction
+              price: +average, // extend blue line to prediction
               lstm: +lstm,
               gru: +gru,
               average: +average,
@@ -351,7 +351,7 @@ export default StockPrediction;
 //                     strokeWidth={3}
 //                     dot={{ r: 3, stroke: "#1d4ed8", strokeWidth: 2 }}
 //                     activeDot={{ r: 6 }}
-//                     connectNulls={false} // ✅ stop at last actual price
+//                     connectNulls={false} // stop at last actual price
 //                     name="Actual Price"
 //                   />
 
