@@ -127,42 +127,6 @@ function StockPrediction() {
       {/* Scrolling Stock Ticker */}
       <div className="absolute top-0 left-0 w-full overflow-hidden bg-black/40 backdrop-blur-md py-2 border-b border-blue-400">
         <div className="animate-marquee flex gap-10 whitespace-nowrap text-lg font-semibold">
-          {stockSymbols.map((s, i) => {
-            const priceData = allPrices[s] || {};
-            const yesterday = priceData.yesterday;
-            const day2 = priceData.day2;
-
-            // Only color yesterday and add arrow
-            let yesterdayColor = "text-gray-300";
-            let arrow = null;
-
-            if (yesterday != null && day2 != null) {
-              if (yesterday > day2) {
-                yesterdayColor = "text-green-400";
-                arrow = "↑";
-              } else if (yesterday < day2) {
-                yesterdayColor = "text-red-400";
-                arrow = "↓";
-              }
-            }
-
-            return (
-              <span key={i} className="flex items-center gap-2">
-                <span className="text-blue-300">{s}</span>
-                {yesterday != null && (
-                  <span className={`${yesterdayColor}`}>
-                    Rs {yesterday}{" "}
-                    {arrow && (
-                      <span className={`${yesterdayColor} font-bold`}>
-                        {arrow}
-                      </span>
-                    )}
-                  </span>
-                )}
-              </span>
-            );
-          })}
-
           {/* duplicate for infinite loop */}
           {stockSymbols.map((s, i) => {
             const priceData = allPrices[s] || {};
