@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import loadingSpinner from "../loadingSpinner/LoadingSpinner.jsx";
 import { fetchPrediction } from "../api";
+import { useParams, useNavigate } from "react-router-dom";
 import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  Legend,
-} from "recharts";
+  LoadingSpinner,
+  PieCharts,
+  PredictionsSidebar,
+  LineCharts,
+} from "../index.js";
 import "../styles.css";
 
 const stockSymbols = [
@@ -38,7 +33,7 @@ function StockPrediction() {
   const { symbol } = useParams();
   const navigate = useNavigate();
   const [predictions, setPredictions] = useState(null);
-  const [status, setStatus] = useState(loadingSpinner());
+  const [status, setStatus] = useState(LoadingSpinner());
   const [allPrices, setAllPrices] = useState({}); // store yesterday/day-2 for each stock
 
   // Fetch prediction for a single stock (used for main chart)
@@ -89,7 +84,7 @@ function StockPrediction() {
   // Load main stock prediction (selected symbol)
   useEffect(() => {
     async function loadMainPrediction() {
-      setStatus(loadingSpinner());
+      setStatus(LoadingSpinner());
       const result = await loadPredictionForSymbol(symbol);
       if (result) {
         setPredictions(result);
@@ -127,7 +122,6 @@ function StockPrediction() {
       {/* Scrolling Stock Ticker */}
       <div className="absolute top-0 left-0 w-full overflow-hidden bg-black/40 backdrop-blur-md py-2 border-b border-blue-400">
         <div className="animate-marquee flex gap-10 whitespace-nowrap text-lg font-semibold">
-          {/* duplicate for infinite loop */}
           {stockSymbols.map((s, i) => {
             const priceData = allPrices[s] || {};
             const yesterday = priceData.yesterday;
@@ -179,7 +173,7 @@ function StockPrediction() {
           <span className="my-4 text-2xl">
             Prediction of next day's closing price of
           </span>
-          <span className="font-bold bg-green-700 px-3 py-1 mx-4 border-2 rounded-xl text-3xl">
+          <span className="font-bold bg-green-700 px-3 py-1 mx-4 border-2 rounded-xl text-3xl md:mt-2">
             {symbol?.toUpperCase()}
           </span>
         </p>
@@ -193,81 +187,13 @@ function StockPrediction() {
       )}
 
       {predictions && (
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {/* Chart Area */}
-          <div className="md:col-span-2 bg-white/10 backdrop-blur-lg p-4 rounded-xl shadow-lg">
-            <h2 className="text-lg font-bold mb-3">
-              Closing Price Trend & Predictions
-            </h2>
-            <div className="h-90">
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={predictions.chartData}>
-                  <CartesianGrid strokeDasharray="4 4" stroke="#444" />
-                  <XAxis dataKey="date" stroke="#ccc" tick={{ fontSize: 12 }} />
-                  <YAxis stroke="#ccc" tick={{ fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#111827",
-                      borderRadius: "8px",
-                      border: "1px solid #374151",
-                      color: "#fff",
-                    }}
-                    formatter={(value, name) => [`Rs. ${value}`, name]}
-                  />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="price"
-                    stroke="#3b82f6"
-                    strokeWidth={3}
-                    name="Actual Price"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="lstm"
-                    stroke="#10b981"
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    name="LSTM Prediction"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="gru"
-                    stroke="#a855f7"
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    name="GRU Prediction"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="average"
-                    stroke="#06b6d4"
-                    strokeWidth={2}
-                    strokeDasharray="4 4"
-                    name="Average Prediction"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+        <div>
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-20 -mt-2 mb-30">
+            <PieCharts predictions={predictions} />
+            <PredictionsSidebar predictions={predictions} />
           </div>
 
-          {/* Predictions Sidebar */}
-          <div className="flex flex-col gap-6">
-            <div className="bg-gradient-to-br from-green-400 to-green-600 p-6 rounded-2xl shadow-lg text-center">
-              <h3 className="text-xl font-bold mb-2">LSTM</h3>
-              <p className="text-3xl font-extrabold">Rs {predictions.lstm}</p>
-            </div>
-            <div className="bg-gradient-to-br from-purple-500 to-indigo-600 p-6 rounded-2xl shadow-lg text-center">
-              <h3 className="text-xl font-bold mb-2">GRU</h3>
-              <p className="text-3xl font-extrabold">Rs {predictions.gru}</p>
-            </div>
-            <div className="bg-gradient-to-br from-blue-500 to-cyan-600 p-6 rounded-2xl shadow-lg text-center">
-              <h3 className="text-xl font-bold mb-2">Average</h3>
-              <p className="text-3xl font-extrabold">
-                Rs {predictions.average}
-              </p>
-            </div>
-          </div>
+          <LineCharts chartData={predictions.chartData} />
         </div>
       )}
     </div>
