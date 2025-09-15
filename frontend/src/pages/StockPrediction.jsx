@@ -62,12 +62,11 @@ function StockPrediction() {
         },
       ];
 
-      // Save yesterday/day-2 for ticker
-      if (data.history?.length >= 3) {
-        const day2 = data.history.find((h) => h.date.includes("Day-2"))?.price;
-        const yesterday = data.history.find((h) =>
-          h.date.includes("Yesterday")
-        )?.price;
+      // Save yesterday/day-2 for ticker (last two closes)
+      if (data.history?.length >= 2) {
+        const len = data.history.length;
+        const day2 = data.history[len - 2].price; // second last
+        const yesterday = data.history[len - 1].price; // last
         setAllPrices((prev) => ({
           ...prev,
           [data.symbol]: { day2, yesterday },
@@ -189,10 +188,14 @@ function StockPrediction() {
       {predictions && (
         <div>
           <div className="flex flex-col lg:flex-row justify-center items-center gap-20 -mt-2 mb-30">
+            {/* PieCharts component */}
             <PieCharts predictions={predictions} />
+
+            {/* PredicttionsSidebar component */}
             <PredictionsSidebar predictions={predictions} />
           </div>
 
+          {/* LineCharts components */}
           <LineCharts chartData={predictions.chartData} />
         </div>
       )}

@@ -118,6 +118,36 @@ class Predictor:
             pred_scaled = model(seq_scaled).cpu().numpy()
         return float(scaler.inverse_transform(pred_scaled).item())
 
+def fetch_last_30_dates_prices(stock: Stock) -> List[Dict[str, object]]:
+    """
+    Fetch last 30 rows with Date and Close price from the stock's CSV.
+    Returns a list of dicts: [{"date": "YYYY-MM-DD", "price": float}, ...]
+    """
+    df = stock.fetch_data()
+
+    # check required columns
+    if "Date" not in df.columns or "Close" not in df.columns:
+        raise HTTPException(status_code=400, detail="CSV must contain 'Date' and 'Close' columns")
+
+    # ensure datetime type
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date", "Close"])
+
+    # sort by date ascending
+    df = df.sort_values("Date")
+
+    # get last 30
+    last30 = df.tail(30)
+
+    # convert to list of dicts
+    history = []
+    for _, row in last30.iterrows():
+        history.append({
+            "date": row["Date"].strftime("%Y-%m-%d"),
+            "price": float(row["Close"])
+        })
+    return history
+
 
 # -----------------------------
 # FastAPI App
@@ -166,18 +196,7 @@ def predict(req: PredictRequest):
     if not results:
         raise HTTPException(status_code=404, detail=f"No trained models found for {symbol}")
 
-    # Extract last 3 closing prices (pad with None if missing)
-    closes = df["Close"].dropna().tolist()
-    closes_last3 = closes[-3:] if len(closes) >= 3 else closes
-
-    # Ensure always 3 entries (pad if needed)
-    while len(closes_last3) < 3:
-        closes_last3.insert(0, None)  # prepend None for missing days
-
-    history = [
-        {"date": "Day-3 Actual Price", "price": float(closes_last3[-3]) if closes_last3[-3] is not None else None},
-        {"date": "Day-2 Actual Price", "price": float(closes_last3[-2]) if closes_last3[-2] is not None else None},
-        {"date": "Yesterday Actual Price", "price": float(closes_last3[-1]) if closes_last3[-1] is not None else None},
-    ]
+    # use the helper function
+    history = fetch_last_30_dates_prices(stock)
 
     return {"symbol": symbol, "predictions": results, "history": history}
