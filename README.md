@@ -1,3 +1,5 @@
 ![Home Page](./images/homePage.jpg)
-![Predicted Page](./images/predictedPage.jpg)
+![PieChart Page](./images/pieChart.jpg)
+![LineChart Page](./images/lineChart.jpg)
+
 
