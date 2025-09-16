@@ -5,7 +5,7 @@ import {
   HistogramSeries,
 } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { BsSun, BsMoon } from "react-icons/bs"; 
+import { BsSun, BsMoon } from "react-icons/bs";
 
 function VolumeBars({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
@@ -118,15 +118,22 @@ function VolumeBars({ symbol = "NABIL" }) {
 
   return (
     <div
-      className={`w-full h-[500px] rounded-xl shadow p-2 mb-11 relative
+      className={`w-full h-[500px] rounded-xl shadow py-14 -mb-4 relative
       ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
     >
+      <h2 className="text-lg font-bold text-center -mt-14">
+        <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2">
+          {symbol?.toUpperCase()}{" "}
+          <span className="text-xl">Volume Bars</span>
+        </span>
+      </h2>
+
       {/* Dark Mode Toggle */}
       <button
         onClick={() => setDarkMode((prev) => !prev)}
-        className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white rounded-md text-sm z-10 cursor-pointer"
+        className="absolute top-2 px-4 py-2 bg-blue-900 text-white rounded-md text-sm z-10 cursor-pointer right-3"
       >
-        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
+        {darkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
       </button>
 
       {loading && <LoadingSpinner />}

@@ -100,15 +100,21 @@ function CandleStickCharts({ symbol = "NABIL" }) {
 
   return (
     <div
-      className={`w-full h-[520px] rounded-xl shadow p-2 mb-1 relative
+      className={`w-full h-[520px] rounded-xl shadow p-2 -mb-6 relative overflow-y-hidden
       ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
     >
+      <h2 className="text-lg font-bold mb-3 text-center">
+        <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2">
+          {symbol?.toUpperCase()}{" "}
+          <span className="text-xl">Candlestick Chart</span>
+        </span>
+      </h2>
       {/* Dark Mode Toggle Button */}
       <button
         onClick={() => setDarkMode((prev) => !prev)}
-        className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer"
+        className="absolute top-2 right-2 px-4 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer -mt-1 mr-2"
       >
-        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
+        {darkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
       </button>
 
       {loading && <LoadingSpinner />}

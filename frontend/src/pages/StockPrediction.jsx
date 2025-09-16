@@ -116,24 +116,27 @@ function StockPrediction() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-gray-900 text-white p-8">
+    <div className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-gray-900 text-white p-4 sm:p-6 md:p-8 overflow-x-hidden">
       {/* Stock ticker */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden bg-black/40 backdrop-blur-md py-2 border-b border-blue-400">
-        <div className="animate-marquee flex gap-10 whitespace-nowrap text-lg font-semibold">
+      <div className="absolute top-0 left-0 w-full bg-black/40 backdrop-blur-md py-2 border-b border-blue-400">
+        <div className="animate-marquee flex gap-10 whitespace-nowrap text-sm sm:text-base md:text-lg font-semibold px-4">
           {stockSymbols.map((s, i) => {
-            const priceData = allPrices[s];
-            if (!priceData)
+            const symbolKey = s.toUpperCase();
+            const priceData = allPrices[symbolKey];
+            if (!priceData) {
               return (
                 <span key={i} className="text-gray-500">
-                  {s}: <LoadingSpinner/>
+                  {s}: loading...
                 </span>
               );
+            }
 
-            const yesterday = Number(priceData.yesterday);
-            const day2 = Number(priceData.day2);
+            const yesterday = Number(priceData?.yesterday ?? NaN);
+            const day2 = Number(priceData?.day2 ?? NaN);
 
             let color = "text-gray-300";
-            let arrow = "";
+            let arrow = "-";
+
             if (!isNaN(yesterday) && !isNaN(day2)) {
               if (yesterday > day2) {
                 color = "text-green-400";
@@ -141,6 +144,9 @@ function StockPrediction() {
               } else if (yesterday < day2) {
                 color = "text-red-400";
                 arrow = "↓";
+              } else {
+                color = "text-yellow-300";
+                arrow = "-";
               }
             }
 
@@ -148,7 +154,8 @@ function StockPrediction() {
               <span key={i} className="flex items-center gap-2">
                 <span className="text-blue-300">{s}</span>
                 <span className={`${color}`}>
-                  Rs {yesterday} <span className="font-bold">{arrow}</span>
+                  Rs {isNaN(yesterday) ? "N/A" : yesterday}{" "}
+                  <span className="font-bold">{arrow}</span>
                 </span>
               </span>
             );
@@ -156,42 +163,24 @@ function StockPrediction() {
         </div>
       </div>
 
-      {/* Back button */}
-      <button
-        onClick={() => navigate("/")}
-        className="px-5 py-2 flex items-center gap-2 bg-black-800/70 backdrop-blur-md rounded-xl shadow hover:bg-blue-500 transition border-2 border-blue-200 cursor-pointer absolute top-16 left-4 hover:border-blue-500"
-      >
-        Back
-      </button>
+      {/* Controls (Back button + Dropdown) */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-8">
+        <button
+          onClick={() => navigate("/")}
+          className="px-4 sm:px-5 py-2 flex items-center gap-2 bg-blue-800 backdrop-blur-md rounded-lg shadow hover:bg-blue-500 transition border border-blue-200 hover:border-blue-500 cursor-pointer"
+        >
+          Back
+        </button>
 
-      {/* Header */}
-      <div className="text-center mb-6 mt-8">
-        <p className="mt-5 text-gray-300 text-base my-4">
-          <span className="my-4 text-2xl">
-            Prediction of next day's closing price of
-          </span>
-          <span className="font-bold bg-green-700 px-3 py-1 mx-4 border-2 rounded-xl text-3xl md:mt-2">
-            {symbol?.toUpperCase()}
-          </span>
-        </p>
-        <span className="text-lg">
-          {tomorrow.toLocaleDateString("en-US", options)}
-        </span>
-      </div>
-
-      {status && (
-        <div className="text-blue-400 text-center text-5xl">{status}</div>
-      )}
-
-      {predictions && (
-        <div>
-          {/* Dropdown to select optional chart */}
-          <div className="mb-4 flex items-center gap-2 absolute top-16 right-4">
-            <span className="font-bold text-lg">Select Chart:</span>
+        {predictions && (
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-base sm:text-lg">
+              Select Chart:
+            </span>
             <select
               value={selectedChart}
               onChange={(e) => setSelectedChart(e.target.value)}
-              className="p-2 rounded bg-blue-900 text-white border border-gray-500 cursor-pointer hover:bg-gray-800 outline-0"
+              className="p-2 rounded bg-blue-900 text-white border border-gray-500 cursor-pointer hover:bg-gray-800 outline-0 text-sm sm:text-base"
             >
               <option value="">Predicted price</option>
               <option value="LineCharts">Line Chart</option>
@@ -200,11 +189,36 @@ function StockPrediction() {
               <option value="Volume">Volume Bars</option>
             </select>
           </div>
+        )}
+      </div>
 
-          {/* Render content based on selection */}
+      {/* Header */}
+      <div className="text-center mb-6 mt-6 sm:mt-8">
+        <p className="text-gray-300 text-sm sm:text-base md:text-lg">
+          <span className="block sm:inline text-xl sm:text-2xl md:text-3xl mb-4">
+            Prediction of next day's closing price of
+          </span>
+          <span className="sm:inline font-bold bg-green-700 px-3 py-1 mx-2 border-2 rounded-xl text-2xl sm:text-3xl md:text-4xl mt-2 sm:mt-0">
+            {symbol?.toUpperCase()}
+          </span>
+        </p>
+        <span className="text-sm sm:text-lg">
+          {tomorrow.toLocaleDateString("en-US", options)}
+        </span>
+      </div>
+
+      {/* Status */}
+      {status && (
+        <div className="text-blue-400 text-center text-3xl sm:text-4xl md:text-5xl">
+          {status}
+        </div>
+      )}
+
+      {/* Predictions */}
+      {predictions && (
+        <div className="mt-6">
           {selectedChart === "" ? (
-            // Default view: PieCharts + PredictionsSidebar
-            <div className="flex flex-col lg:flex-row justify-center items-center gap-20 mt-4 mb-8">
+            <div className="flex flex-col lg:flex-row justify-center items-center gap-10 sm:gap-20 mt-4 mb-8">
               <PieCharts predictions={predictions} />
               <PredictionsSidebar predictions={predictions} />
             </div>

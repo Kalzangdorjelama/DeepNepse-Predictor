@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries, LineSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { BsSun, BsMoon } from "react-icons/bs"; 
+import { BsSun, BsMoon } from "react-icons/bs";
 
 // ----------------- Indicators -----------------
 function calcSMA(data, period = 14) {
@@ -187,17 +187,24 @@ function Indicator({ symbol = "NABIL" }) {
 
   return (
     <div
-      className={`w-full rounded-xl shadow p-2 pr-6 relative
+      className={`w-full -mb-4 rounded-xl shadow p-2 pr-6 relative
       ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
     >
       {loading && <LoadingSpinner />}
 
+      <h2 className="text-lg font-bold -mt-2 text-center">
+        <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2">
+          {symbol?.toUpperCase()}{" "}
+          <span className="text-xl">Indicator Chart</span>
+        </span>
+      </h2>
+
       {/* Dark Mode Toggle */}
       <button
         onClick={() => setDarkMode((prev) => !prev)}
-        className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white rounded text-sm z-10 cursor-pointer"
+        className="absolute top-2 right-2 px-4 py-2 bg-blue-900 text-white rounded text-sm z-10 cursor-pointer"
       >
-        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
+        {darkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
       </button>
 
       {/* Indicator Legend */}
