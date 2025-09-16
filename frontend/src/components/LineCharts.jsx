@@ -13,6 +13,10 @@ import { useParams } from "react-router-dom";
 function LineCharts({ chartData }) {
   const { symbol } = useParams();
   const lastPoint = chartData[chartData.length - 1];
+  // console.log("CHARTDATA: ",chartData);
+  // if (chartData.date === "Predicted Price") {
+
+  // }
 
   // Custom Tooltip to handle prediction case
   const CustomTooltip = ({ active, payload, label }) => {
@@ -121,6 +125,7 @@ function LineCharts({ chartData }) {
               dot={false}
               name="GRU Prediction"
             />
+
             <Line
               type="monotone"
               dataKey="average"
@@ -152,7 +157,7 @@ function LineCharts({ chartData }) {
 
       {/* Label for predicted price */}
       {lastPoint && (
-        <p className="text-center mt-2 text-cyan-300 font-semibold">
+        <p className="text-center mt-2 text-cyan-300 font-semibold mb-1">
           Predicted Closing Price: Rs. {lastPoint.average}
         </p>
       )}

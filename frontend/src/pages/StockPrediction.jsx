@@ -6,6 +6,9 @@ import {
   PieCharts,
   PredictionsSidebar,
   LineCharts,
+  LightWeight,
+  Indicator,
+  VolumeBars,
 } from "../index.js";
 import "../styles.css";
 
@@ -34,9 +37,9 @@ function StockPrediction() {
   const navigate = useNavigate();
   const [predictions, setPredictions] = useState(null);
   const [status, setStatus] = useState(LoadingSpinner());
-  const [allPrices, setAllPrices] = useState({}); // store yesterday/day-2 for each stock
+  const [allPrices, setAllPrices] = useState({});
+  const [selectedChart, setSelectedChart] = useState(""); // empty by default
 
-  // Fetch prediction for a single stock (used for main chart)
   const loadPredictionForSymbol = async (sym) => {
     try {
       const data = await fetchPrediction(sym);
@@ -62,11 +65,10 @@ function StockPrediction() {
         },
       ];
 
-      // Save yesterday/day-2 for ticker (last two closes)
       if (data.history?.length >= 2) {
         const len = data.history.length;
-        const day2 = data.history[len - 2].price; // second last
-        const yesterday = data.history[len - 1].price; // last
+        const day2 = data.history[len - 2].price;
+        const yesterday = data.history[len - 1].price;
         setAllPrices((prev) => ({
           ...prev,
           [data.symbol]: { day2, yesterday },
@@ -80,7 +82,6 @@ function StockPrediction() {
     }
   };
 
-  // Load main stock prediction (selected symbol)
   useEffect(() => {
     async function loadMainPrediction() {
       setStatus(LoadingSpinner());
@@ -95,11 +96,9 @@ function StockPrediction() {
     loadMainPrediction();
   }, [symbol]);
 
-  // Load all stocks for ticker
   useEffect(() => {
     async function loadAllPrices() {
       for (let sym of stockSymbols) {
-        console.log("ALL STOCK :", sym);
         await loadPredictionForSymbol(sym);
       }
     }
@@ -118,17 +117,15 @@ function StockPrediction() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-gray-900 text-white p-8">
-      {/* Scrolling Stock Ticker */}
+      {/* Stock ticker */}
       <div className="absolute top-0 left-0 w-full overflow-hidden bg-black/40 backdrop-blur-md py-2 border-b border-blue-400">
         <div className="animate-marquee flex gap-10 whitespace-nowrap text-lg font-semibold">
           {stockSymbols.map((s, i) => {
             const priceData = allPrices[s] || {};
             const yesterday = priceData.yesterday;
             const day2 = priceData.day2;
-
             let yesterdayColor = "text-gray-300";
             let arrow = null;
-
             if (yesterday != null && day2 != null) {
               if (yesterday > day2) {
                 yesterdayColor = "text-green-400";
@@ -138,18 +135,13 @@ function StockPrediction() {
                 arrow = "↓";
               }
             }
-
             return (
               <span key={`dup-${i}`} className="flex items-center gap-2">
                 <span className="text-blue-300">{s}</span>
                 {yesterday != null && (
                   <span className={`${yesterdayColor}`}>
                     Rs {yesterday}{" "}
-                    {arrow && (
-                      <span className={`${yesterdayColor} font-bold`}>
-                        {arrow}
-                      </span>
-                    )}
+                    {arrow && <span className="font-bold">{arrow}</span>}
                   </span>
                 )}
               </span>
@@ -187,16 +179,38 @@ function StockPrediction() {
 
       {predictions && (
         <div>
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-20 -mt-2 mb-30">
-            {/* PieCharts component */}
-            <PieCharts predictions={predictions} />
-
-            {/* PredicttionsSidebar component */}
-            <PredictionsSidebar predictions={predictions} />
+          {/* Dropdown to select optional chart */}
+          <div className="mb-4 flex items-center gap-2 absolute top-16 right-4">
+            <span className="font-bold text-lg">Select Chart:</span>
+            <select
+              value={selectedChart}
+              onChange={(e) => setSelectedChart(e.target.value)}
+              className="p-2 rounded bg-gray-800 text-white border border-gray-600 cursor-pointer"
+            >
+              <option value="">Predicted price</option>
+              <option value="LineCharts">Line Chart</option>
+              <option value="LightWeight">Candlestick Chart</option>
+              <option value="Indicator">Indicator Chart</option>
+              <option value="Volume">Volume Bars</option>
+            </select>
           </div>
 
-          {/* LineCharts components */}
-          <LineCharts chartData={predictions.chartData} />
+          {/* Render content based on selection */}
+          {selectedChart === "" ? (
+            // Default view: PieCharts + PredictionsSidebar
+            <div className="flex flex-col lg:flex-row justify-center items-center gap-20 mt-4 mb-8">
+              <PieCharts predictions={predictions} />
+              <PredictionsSidebar predictions={predictions} />
+            </div>
+          ) : selectedChart === "LineCharts" ? (
+            <LineCharts chartData={predictions.chartData} />
+          ) : selectedChart === "LightWeight" ? (
+            <LightWeight symbol={symbol} />
+          ) : selectedChart === "Indicator" ? (
+            <Indicator symbol={symbol} />
+          ) : selectedChart === "Volume" ? (
+            <VolumeBars symbol={symbol} />
+          ) : null}
         </div>
       )}
     </div>

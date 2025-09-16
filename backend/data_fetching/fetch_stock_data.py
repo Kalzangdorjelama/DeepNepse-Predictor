@@ -4,7 +4,10 @@ from datetime import datetime
 import pandas as pd
 import os
 
-def get_historical_closing(symbol, count=30):
+def get_all_historical_ohlcv(symbol):
+    """
+    Fetch all available historical OHLCV data for a given stock symbol.
+    """
     url = f'https://www.financialnotices.com/stock-nepse.php?symbol={symbol}'
     headers = {'User-Agent': 'Mozilla/5.0'}
     resp = requests.get(url, headers=headers)
@@ -15,38 +18,27 @@ def get_historical_closing(symbol, count=30):
     for row in rows:
         cols = [c.text.strip() for c in row.find_all('td')]
         if len(cols) >= 6:
-            date_str = cols[0]
-            close_price = cols[1]
+            date_str, close_price, open_price, high_price, low_price, volume = cols[:6]
             try:
                 date_obj = datetime.strptime(date_str, '%Y-%m-%d').date()
-                price = float(close_price.replace(',', ''))
-                history.append({'Date': date_obj, 'Close': price})
+                history.append({
+                    'Date': date_obj,
+                    'Open': float(open_price.replace(',', '')),
+                    'High': float(high_price.replace(',', '')),
+                    'Low': float(low_price.replace(',', '')),
+                    'Close': float(close_price.replace(',', '')),
+                    'Volume': float(volume.replace(',', ''))
+                })
             except ValueError:
                 continue
-            if len(history) >= count:
-                break
     return history[::-1]  # oldest to newest
 
-# 18 commercial bank symbols
+# List of 18 commercial bank symbols
 symbols = [
-  "ADBL",
-  "CZBIL",
-  "EBL",
-  "GBIME",
-  "HBL",
-  "KBL",
-  "MBL",
-  "NABIL",
-  "NBL",
-  "NICA",
-  "NIMB",
-  "NMB",
-  "PCBL",
-  "PRVU",
-  "SANIMA",
-  "SBL",
-  "SCB"
-];
+    "ADBL","CZBIL","EBL","GBIME","HBL","KBL","MBL",
+    "NABIL","NBL","NICA","NIMB","NMB","PCBL","PRVU",
+    "SANIMA","SBL","SCB"
+]
 
 # Folder to store individual CSVs
 os.makedirs("../fetchStockData", exist_ok=True)
@@ -54,25 +46,32 @@ os.makedirs("../fetchStockData", exist_ok=True)
 # Initialize empty DataFrame for combined data
 combined_df = pd.DataFrame()
 
-# Collect and combine data
+# Fetch data for all symbols
 for symbol in symbols:
-    data = get_historical_closing(symbol)
+    print(f"Fetching data for {symbol}...")
+    data = get_all_historical_ohlcv(symbol)
     if data:
         df = pd.DataFrame(data)
         df.set_index('Date', inplace=True)
 
-        # Save individual CSV (Date, Close)
-        df.to_csv(f"../fetchStockData/{symbol}.csv")
-        print(f"Saved: ../fetchStockData/{symbol}.csv")
+        # Save individual CSV
+        df.to_csv(f"../fetchStockData/{symbol}_ohlcv.csv")
+        print(f"Saved: ../fetchStockData/{symbol}_ohlcv.csv")
 
-
-        # Add to combined DataFrame
-        df_symbol = df.rename(columns={'Close': symbol})
+        # Prepare for combined CSV
+        df_symbol = df.rename(columns={
+            'Open': f"{symbol}_Open",
+            'High': f"{symbol}_High",
+            'Low': f"{symbol}_Low",
+            'Close': f"{symbol}_Close",
+            'Volume': f"{symbol}_Volume"
+        })
         combined_df = combined_df.join(df_symbol, how='outer') if not combined_df.empty else df_symbol
 
+# Clean combined DataFrame
 combined_df.dropna(inplace=True)
-
-# Sort by date
 combined_df.sort_index(inplace=True)
 
-combined_df.to_csv("17_commercial_bank.csv")
+# Save combined CSV
+combined_df.to_csv("all_commercial_bank_ohlcv.csv")
+print("Saved: all_commercial_bank_ohlcv.csv")

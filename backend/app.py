@@ -55,7 +55,7 @@ class Stock:
         self.stock_name = stock_name
 
     def fetch_data(self) -> pd.DataFrame:
-        csv_path = os.path.join(DATA_DIR, f"{self.stock_name}.csv")
+        csv_path = os.path.join(DATA_DIR, f"{self.stock_name}_ohlcv.csv")
         if not os.path.exists(csv_path):
             raise HTTPException(status_code=404, detail=f"No CSV found for {self.stock_name}")
         return pd.read_csv(csv_path)
@@ -200,3 +200,37 @@ def predict(req: PredictRequest):
     history = fetch_last_30_dates_prices(stock)
 
     return {"symbol": symbol, "predictions": results, "history": history}
+
+@app.get("/ohlcv/{symbol}")
+def get_ohlcv(symbol: str, all_data: bool = True):
+    stock = Stock(symbol.upper())
+    df = stock.fetch_data()
+
+    required_cols = ["Date", "Open", "High", "Low", "Close"]
+    for col in required_cols:
+        if col not in df.columns:
+            raise HTTPException(status_code=400, detail=f"CSV missing '{col}' column")
+
+    # ensure datetime
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=required_cols)
+    df = df.sort_values("Date")
+
+    # if all_data=True, return all rows, otherwise last 50
+    if not all_data:
+        df = df.tail(50)
+
+    return {
+        "symbol": symbol.upper(),
+        "ohlcv": [
+            {
+                "time": row["Date"].strftime("%Y-%m-%d"),
+                "open": float(row["Open"]),
+                "high": float(row["High"]),
+                "low": float(row["Low"]),
+                "close": float(row["Close"]),
+                "volume": float(row["Volume"]) if "Volume" in row else 0
+            }
+            for _, row in df.iterrows()
+        ]
+    }
