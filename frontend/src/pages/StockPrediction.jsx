@@ -153,7 +153,7 @@ function StockPrediction() {
       {/* Back button */}
       <button
         onClick={() => navigate("/")}
-        className="px-5 py-2 flex items-center gap-2 bg-black-800/70 backdrop-blur-md rounded-xl shadow hover:bg-blue-500 transition border-2 border-blue-200 cursor-pointer absolute top-15 left-5 hover:border-blue-500"
+        className="px-5 py-2 flex items-center gap-2 bg-black-800/70 backdrop-blur-md rounded-xl shadow hover:bg-blue-500 transition border-2 border-blue-200 cursor-pointer absolute top-16 left-4 hover:border-blue-500"
       >
         Back
       </button>
@@ -185,7 +185,7 @@ function StockPrediction() {
             <select
               value={selectedChart}
               onChange={(e) => setSelectedChart(e.target.value)}
-              className="p-2 rounded bg-gray-800 text-white border border-gray-600 cursor-pointer"
+              className="p-2 rounded bg-blue-900 text-white border border-gray-500 cursor-pointer hover:bg-gray-800 outline-0"
             >
               <option value="">Predicted price</option>
               <option value="LineCharts">Line Chart</option>

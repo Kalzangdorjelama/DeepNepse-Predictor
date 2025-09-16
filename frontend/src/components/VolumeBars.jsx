@@ -8,12 +8,17 @@ import { LoadingSpinner } from "./LoadingSpinner";
 
 function VolumeBars({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
-  const [loading, setLoading] = useState(LoadingSpinner());
+  const chartRef = useRef(null);
+  const candleRef = useRef(null);
+  const volumeRef = useRef(null);
 
+  const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Init chart
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    // Create chart
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
@@ -23,7 +28,6 @@ function VolumeBars({ symbol = "NABIL" }) {
       timeScale: { borderVisible: false },
     });
 
-    // Candlestick series
     const candleSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#26a69a",
       borderUpColor: "#26a69a",
@@ -35,16 +39,31 @@ function VolumeBars({ symbol = "NABIL" }) {
       priceLineVisible: true,
     });
 
-    // Volume series (histogram at bottom)
     const volumeSeries = chart.addSeries(HistogramSeries, {
       priceFormat: { type: "volume" },
-      scaleMargins: {
-        top: 0.8, // candlestick occupies top 80%
-        bottom: 0,
-      },
+      scaleMargins: { top: 0.8, bottom: 0 },
     });
 
-    // Fetch OHLCV data
+    chartRef.current = chart;
+    candleRef.current = candleSeries;
+    volumeRef.current = volumeSeries;
+
+    const handleResize = () => {
+      chart.resize(
+        chartContainerRef.current.clientWidth,
+        chartContainerRef.current.clientHeight
+      );
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      chart.remove();
+    };
+  }, []);
+
+  // Fetch data
+  useEffect(() => {
     async function fetchData() {
       try {
         const res = await fetch(
@@ -53,18 +72,16 @@ function VolumeBars({ symbol = "NABIL" }) {
         const json = await res.json();
 
         if (json.ohlcv && Array.isArray(json.ohlcv)) {
-          // Candlestick data
-          candleSeries.setData(json.ohlcv);
+          candleRef.current.setData(json.ohlcv);
 
-          // Volume data
           const volumeData = json.ohlcv.map((d) => ({
             time: d.time,
             value: d.volume,
             color: d.close >= d.open ? "#26a69a" : "#ef5350",
           }));
-          volumeSeries.setData(volumeData);
+          volumeRef.current.setData(volumeData);
 
-          chart.timeScale().fitContent();
+          chartRef.current.timeScale().fitContent();
         } else {
           console.error("Invalid OHLCV data:", json);
         }
@@ -76,25 +93,41 @@ function VolumeBars({ symbol = "NABIL" }) {
     }
 
     fetchData();
-
-    // Handle window resize
-    const handleResize = () => {
-      chart.resize(
-        chartContainerRef.current.clientWidth,
-        chartContainerRef.current.clientHeight
-      );
-    };
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      chart.remove();
-    };
   }, [symbol]);
 
+  // Switch theme
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    if (darkMode) {
+      chartRef.current.applyOptions({
+        layout: { background: { color: "#0f172a" }, textColor: "#cbd5e1" },
+        grid: {
+          vertLines: { color: "#1e293b" },
+          horzLines: { color: "#1e293b" },
+        },
+      });
+    } else {
+      chartRef.current.applyOptions({
+        layout: { background: { color: "#fff" }, textColor: "#333" },
+        grid: { vertLines: { color: "#eee" }, horzLines: { color: "#eee" } },
+      });
+    }
+  }, [darkMode]);
+
   return (
-    <div className="w-full h-[500px] bg-white rounded-xl shadow p-2 mb-11">
+    <div
+      className={`w-full h-[500px] rounded-xl shadow p-2 mb-11 relative
+      ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
+    >
+      {/* Dark Mode Toggle */}
+      <button
+        onClick={() => setDarkMode((prev) => !prev)}
+        className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white rounded-md text-sm z-10 cursor-pointer"
+      >
+        {darkMode ? "Light Mode" : "Dark Mode"}
+      </button>
+
       {loading && <LoadingSpinner />}
       <div ref={chartContainerRef} className="w-full h-full" />
     </div>

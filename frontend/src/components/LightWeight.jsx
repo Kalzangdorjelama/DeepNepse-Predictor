@@ -4,13 +4,16 @@ import { LoadingSpinner } from "./LoadingSpinner";
 
 function LightWeight({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
-  const [loading, setLoading] = useState(LoadingSpinner());
-  // const [status, setStatus] = useState(LoadingSpinner());
+  const chartRef = useRef(null);
+  const seriesRef = useRef(null);
 
+  const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Initialize chart only once
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    // Create chart
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
@@ -20,7 +23,6 @@ function LightWeight({ symbol = "NABIL" }) {
       timeScale: { borderVisible: false },
     });
 
-    // Add candlestick series (v4+ API)
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#26a69a",
       borderUpColor: "#26a69a",
@@ -28,22 +30,40 @@ function LightWeight({ symbol = "NABIL" }) {
       downColor: "#ef5350",
       borderDownColor: "#ef5350",
       wickDownColor: "#ef5350",
-      barSpacing: 15, // space between candles
+      barSpacing: 15,
       priceLineVisible: true,
     });
 
-    // Fetch all OHLCV data from backend
+    chartRef.current = chart;
+    seriesRef.current = candlestickSeries;
+
+    // Resize handler
+    const handleResize = () => {
+      chart.resize(
+        chartContainerRef.current.clientWidth,
+        chartContainerRef.current.clientHeight
+      );
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      chart.remove();
+    };
+  }, []);
+
+  // Fetch data when symbol changes
+  useEffect(() => {
     async function fetchData() {
       try {
         const res = await fetch(
           `http://localhost:8000/ohlcv/${symbol}?all_data=true`
         );
         const json = await res.json();
-        console.log("RESPONSE: ", json);
 
         if (json.ohlcv && Array.isArray(json.ohlcv)) {
-          candlestickSeries.setData(json.ohlcv);
-          chart.timeScale().fitContent();
+          seriesRef.current.setData(json.ohlcv);
+          chartRef.current.timeScale().fitContent();
         } else {
           console.error("Invalid OHLCV data:", json);
         }
@@ -55,25 +75,41 @@ function LightWeight({ symbol = "NABIL" }) {
     }
 
     fetchData();
-
-    // Handle resizing
-    const handleResize = () => {
-      chart.resize(
-        chartContainerRef.current.clientWidth,
-        chartContainerRef.current.clientHeight
-      );
-    };
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      chart.remove();
-    };
   }, [symbol]);
 
+  // Apply theme when darkMode changes
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    if (darkMode) {
+      chartRef.current.applyOptions({
+        layout: { background: { color: "#0f172a" }, textColor: "#cbd5e1" },
+        grid: {
+          vertLines: { color: "#1e293b" },
+          horzLines: { color: "#1e293b" },
+        },
+      });
+    } else {
+      chartRef.current.applyOptions({
+        layout: { background: { color: "#fff" }, textColor: "#333" },
+        grid: { vertLines: { color: "#eee" }, horzLines: { color: "#eee" } },
+      });
+    }
+  }, [darkMode]);
+
   return (
-    <div className="w-full h-[500px] bg-white rounded-xl shadow p-2 mb-1">
+    <div
+      className={`w-full h-[520px] rounded-xl shadow p-2 mb-1 relative
+      ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
+    >
+      {/* Dark Mode Toggle Button */}
+      <button
+        onClick={() => setDarkMode((prev) => !prev)}
+        className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer"
+      >
+        {darkMode ? "Light Mode" : "Dark Mode"}
+      </button>
+
       {loading && <LoadingSpinner />}
       <div ref={chartContainerRef} className="w-full h-full" />
     </div>
