@@ -6,7 +6,7 @@ import LineCharts from "./components/LineCharts.jsx";
 import PieCharts from "./components/PieCharts.jsx"
 import PredictionsSidebar from "./components/PredictionsSidebar.jsx"
 import LoadingSpinner from "./components/LoadingSpinner.jsx"
-import LightWeight from "./components/LightWeight.jsx";
+import CandleStickCharts from "./components/CandleStickCharts.jsx";
 import Indicator from "./components/Indicator.jsx";
 import VolumeBars from "./components/VolumeBars.jsx";
 
@@ -19,7 +19,7 @@ export {
     LoadingSpinner,
     PieCharts,
     PredictionsSidebar,
-    LightWeight,
+    CandleStickCharts,
     Indicator,
     VolumeBars
 }

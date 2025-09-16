@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
 
-function LightWeight({ symbol = "NABIL" }) {
+function CandleStickCharts({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
   const chartRef = useRef(null);
   const seriesRef = useRef(null);
@@ -116,4 +116,4 @@ function LightWeight({ symbol = "NABIL" }) {
   );
 }
 
-export default LightWeight;
+export default CandleStickCharts;

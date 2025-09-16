@@ -6,7 +6,7 @@ import {
   PieCharts,
   PredictionsSidebar,
   LineCharts,
-  LightWeight,
+  CandleStickCharts,
   Indicator,
   VolumeBars,
 } from "../index.js";
@@ -205,7 +205,7 @@ function StockPrediction() {
           ) : selectedChart === "LineCharts" ? (
             <LineCharts chartData={predictions.chartData} />
           ) : selectedChart === "LightWeight" ? (
-            <LightWeight symbol={symbol} />
+            <CandleStickCharts symbol={symbol} />
           ) : selectedChart === "Indicator" ? (
             <Indicator symbol={symbol} />
           ) : selectedChart === "Volume" ? (
