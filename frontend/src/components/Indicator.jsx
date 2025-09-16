@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries, LineSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { BsSun, BsMoon } from "react-icons/bs"; 
 
 // ----------------- Indicators -----------------
 function calcSMA(data, period = 14) {
@@ -196,7 +197,7 @@ function Indicator({ symbol = "NABIL" }) {
         onClick={() => setDarkMode((prev) => !prev)}
         className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white rounded text-sm z-10 cursor-pointer"
       >
-        {darkMode ? "Light Mode" : "Dark Mode"}
+        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
       </button>
 
       {/* Indicator Legend */}

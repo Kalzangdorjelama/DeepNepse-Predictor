@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { BsSun, BsMoon } from "react-icons/bs";
 
 function CandleStickCharts({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
@@ -107,7 +108,7 @@ function CandleStickCharts({ symbol = "NABIL" }) {
         onClick={() => setDarkMode((prev) => !prev)}
         className="absolute top-2 right-2 px-3 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer"
       >
-        {darkMode ? "Light Mode" : "Dark Mode"}
+        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
       </button>
 
       {loading && <LoadingSpinner />}
