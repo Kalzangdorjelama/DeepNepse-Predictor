@@ -124,7 +124,7 @@ function VolumeBars({ symbol = "NABIL" }) {
       <h2 className="text-lg font-bold text-center -mt-14">
         <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2">
           {symbol?.toUpperCase()}{" "}
-          <span className="text-xl">Volume Bars</span>
+          <span className="text-xl">Volume Bar</span>
         </span>
       </h2>
 
