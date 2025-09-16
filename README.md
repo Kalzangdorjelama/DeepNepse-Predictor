@@ -3,7 +3,7 @@
 ![LineChart Page](./images/lineChart.jpg)
 ![CandleStickChart Page](./images/candleStickChart.jpg)
 ![IndicatorChart Page](./images/indicatorChart.jpg)
-![VolumeBars Page](./images/volumeBars.jpg.jpg)
+![VolumeBars Page](./images/volumeBars.jpg)
 
 
 
