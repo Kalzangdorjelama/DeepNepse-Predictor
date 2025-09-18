@@ -12,24 +12,3 @@
   animation: marquee 30s linear infinite;
 }
 
-/* nav section */
-.fire-text {
-  color: #ff4500;
-  animation: flicker 1s infinite alternate;
-  position: relative;
-}
-
-@keyframes flicker {
-  0% {
-    text-shadow: 0 0 5px #ff4500, 0 0 10px #ff6347, 0 0 20px #ff4500,
-      0 0 30px #ff6347;
-  }
-  50% {
-    text-shadow: 0 0 8px #ff4500, 0 0 16px #ff6347, 0 0 32px #ff4500,
-      0 0 48px #ff6347;
-  }
-  100% {
-    text-shadow: 0 0 5px #ff4500, 0 0 10px #ff6347, 0 0 20px #ff4500,
-      0 0 30px #ff6347;
-  }
-}
