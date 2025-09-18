@@ -187,7 +187,7 @@ function Indicator({ symbol = "NABIL" }) {
 
   return (
     <div
-      className={`w-full -mb-4 rounded-xl shadow p-2 pr-6 relative
+      className={`w-full mb-4 rounded-xl shadow p-2 pr-6 relative
       ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
     >
       {loading && <LoadingSpinner />}

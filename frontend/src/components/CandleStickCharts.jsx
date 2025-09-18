@@ -103,7 +103,7 @@ function CandleStickCharts({ symbol = "NABIL" }) {
       className={`w-full h-[520px] rounded-xl shadow p-2 -mb-6 relative overflow-y-hidden
       ${darkMode ? "bg-[#0f172a]" : "bg-white"}`}
     >
-      <h2 className="text-lg font-bold mb-3 text-center">
+      <h2 className="text-lg font-bold mb-3 text-center mr-2">
         <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2 md:text-lg">
           {symbol?.toUpperCase()}{" "}
           <span className="text-xl">Candlestick Chart</span>
