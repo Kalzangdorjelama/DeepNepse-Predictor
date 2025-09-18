@@ -22,18 +22,19 @@ function Features() {
   };
 
   return (
-    <section className="py-20 bg-white min-h-screen">
+    <section className="py-20 bg-gray-950 min-h-screen text-gray-200">
+      {/* Heading */}
       <motion.h3
-        className="text-4xl font-bold text-center text-gray-900"
+        className="text-4xl font-bold text-center text-white"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        Why Choose DeepNepse?
+        Why Choose <span className="text-purple-500">DeepNepse?</span>
       </motion.h3>
 
       <motion.p
-        className="mt-4 text-center text-gray-600"
+        className="mt-4 text-center text-gray-400"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.8 }}
@@ -41,8 +42,9 @@ function Features() {
         A powerful stock prediction platform built with modern AI.
       </motion.p>
 
+      {/* Cards */}
       <motion.div
-        className="mt-14 grid md:grid-cols-3 gap-10 px-10 max-w-6xl mx-auto"
+        className="mt-14 grid md:grid-cols-3 gap-10 px-6 sm:px-10 max-w-6xl mx-auto"
         variants={container}
         initial="hidden"
         whileInView="visible"
@@ -50,15 +52,15 @@ function Features() {
       >
         {/* Card 1 */}
         <motion.div
-          className="p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition cursor-pointer"
+          className="p-8 bg-gray-900 border border-gray-800 rounded-2xl shadow-lg hover:shadow-purple-500/20 transition cursor-pointer"
           variants={card}
           whileHover={{ scale: 1.05 }}
         >
-          <div className="text-blue-600 text-4xl mb-4 text-center">📊</div>
-          <h4 className="font-bold text-xl text-center">
+          <div className="text-purple-500 text-4xl mb-4 text-center">📊</div>
+          <h4 className="font-bold text-xl text-center text-white">
             AI-Powered Predictions
           </h4>
-          <p className="mt-3 text-gray-600 text-center">
+          <p className="mt-3 text-gray-400 text-center">
             Deep learning models (LSTM & GRU) trained on NEPSE data to forecast
             stock movements accurately.
           </p>
@@ -66,13 +68,15 @@ function Features() {
 
         {/* Card 2 */}
         <motion.div
-          className="p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition cursor-pointer"
+          className="p-8 bg-gray-900 border border-gray-800 rounded-2xl shadow-lg hover:shadow-purple-500/20 transition cursor-pointer"
           variants={card}
           whileHover={{ scale: 1.05 }}
         >
-          <div className="text-blue-600 text-4xl mb-4 text-center">⚡</div>
-          <h4 className="font-bold text-xl text-center">Real-Time Insights</h4>
-          <p className="mt-3 text-gray-600 text-center">
+          <div className="text-purple-500 text-4xl mb-4 text-center">⚡</div>
+          <h4 className="font-bold text-xl text-center text-white">
+            Real-Time Insights
+          </h4>
+          <p className="mt-3 text-gray-400 text-center">
             Get instant predictions with easy-to-read visualizations and stock
             trends.
           </p>
@@ -80,15 +84,15 @@ function Features() {
 
         {/* Card 3 */}
         <motion.div
-          className="p-8 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-lg hover:shadow-2xl transition cursor-pointer"
+          className="p-8 bg-gray-900 border border-gray-800 rounded-2xl shadow-lg hover:shadow-purple-500/20 transition cursor-pointer"
           variants={card}
           whileHover={{ scale: 1.05 }}
         >
-          <div className="text-blue-600 text-4xl mb-4 text-center">🎯</div>
-          <h4 className="font-bold text-xl text-center">
+          <div className="text-purple-500 text-4xl mb-4 text-center">🎯</div>
+          <h4 className="font-bold text-xl text-center text-white">
             User-Friendly Dashboard
           </h4>
-          <p className="mt-3 text-gray-600 text-center">
+          <p className="mt-3 text-gray-400 text-center">
             Minimal, intuitive interface designed for students, traders, and
             researchers.
           </p>

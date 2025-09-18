@@ -6,6 +6,7 @@ import {
 } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner.jsx";
 import { BsSun, BsMoon } from "react-icons/bs";
+import VITE_API_URL from "../api/api.js";
 
 function VolumeBars({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
@@ -68,7 +69,7 @@ function VolumeBars({ symbol = "NABIL" }) {
     async function fetchData() {
       try {
         const res = await fetch(
-          `https://deepnepse-predictor-3.onrender.com/ohlcv/${symbol}?all_data=true`
+          `${VITE_API_URL}/ohlcv/${symbol}?all_data=true`
         );
         const json = await res.json();
 
@@ -123,8 +124,7 @@ function VolumeBars({ symbol = "NABIL" }) {
     >
       <h2 className="text-lg font-bold text-center -mt-14">
         <span className="ml-2 text-2xl text-orange-500 bg-blue-900 p-2">
-          {symbol?.toUpperCase()}{" "}
-          <span className="text-xl">Volume Bar</span>
+          {symbol?.toUpperCase()} <span className="text-xl">Volume Bar</span>
         </span>
       </h2>
 

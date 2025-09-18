@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries, LineSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { BsSun, BsMoon } from "react-icons/bs";
+import VITE_API_URL from "../api/api.js";
 
 // ----------------- Indicators -----------------
 function calcSMA(data, period = 14) {
@@ -67,9 +68,7 @@ function Indicator({ symbol = "NABIL" }) {
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await fetch(
-          `https://deepnepse-predictor-3.onrender.com/ohlcv/${symbol}?all_data=true`
-        );
+        const res = await fetch(`${VITE_API_URL}/ohlcv/${symbol}?all_data=true`);
         const json = await res.json();
         if (!json.ohlcv || !Array.isArray(json.ohlcv))
           throw new Error("Invalid OHLCV");

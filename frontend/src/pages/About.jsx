@@ -23,24 +23,27 @@ function About() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-950 min-h-screen text-gray-200">
       {/* Hero Section */}
       <motion.section
-        className="py-20 text-center bg-gray-800 text-white mx-3 mt-3"
+        className="py-20 text-center bg-gray-900 border-b border-gray-800 shadow-md mx-3 mt-3 rounded-xl"
         initial="hidden"
         animate="visible"
         variants={container}
       >
-        <motion.h1 className="text-4xl font-extrabold" variants={item}>
-          About DeepNepse
+        <motion.h1
+          className="text-4xl font-extrabold text-white"
+          variants={item}
+        >
+          About <span className="text-purple-500">DeepNepse</span>
         </motion.h1>
         <motion.p
-          className="mt-6 max-w-3xl mx-auto text-lg opacity-90 px-6"
+          className="mt-6 max-w-3xl mx-auto text-lg text-gray-400 px-6"
           variants={item}
         >
           DeepNepse is your AI-powered companion for smarter NEPSE stock
           predictions. We combine the power of{" "}
-          <span className="font-semibold">LSTM & GRU models</span> with
+          <span className="font-semibold text-white">LSTM & GRU models</span> with
           real-time data to give traders, students, and researchers reliable
           insights.
         </motion.p>
@@ -55,13 +58,13 @@ function About() {
         variants={container}
       >
         <motion.h2
-          className="text-3xl font-bold text-gray-900 text-center"
+          className="text-3xl font-bold text-center text-white"
           variants={item}
         >
           Our Mission
         </motion.h2>
         <motion.p
-          className="mt-6 text-lg text-gray-600 text-center max-w-3xl mx-auto"
+          className="mt-6 text-lg text-gray-400 text-center max-w-3xl mx-auto"
           variants={item}
         >
           We aim to make stock forecasting in Nepal more accessible, accurate,
@@ -97,31 +100,31 @@ function About() {
         ].map((feature, i) => (
           <motion.div
             key={i}
-            className="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
+            className="bg-gray-900 border border-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-purple-500/20 transition cursor-pointer"
             variants={item}
             whileHover={{ scale: 1.05 }}
           >
-            <div className="text-blue-600 text-4xl mb-4 text-center">
+            <div className="text-purple-500 text-4xl mb-4 text-center">
               {feature.icon}
             </div>
-            <h3 className="text-xl font-bold text-blue-600 text-center">
+            <h3 className="text-xl font-bold text-white text-center">
               {feature.title}
             </h3>
-            <p className="mt-4 text-gray-600 text-center">{feature.desc}</p>
+            <p className="mt-4 text-gray-400 text-center">{feature.desc}</p>
           </motion.div>
         ))}
       </motion.section>
 
       {/* Call to Action */}
       <motion.section
-        className="py-20 text-center bg-gray-800 text-white mx-3"
+        className="py-20 text-center bg-gray-900 border-t border-gray-800 shadow-inner mx-3 rounded-xl"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1 }}
       >
         <motion.h2
-          className="text-3xl font-bold"
+          className="text-3xl font-bold text-white"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -129,7 +132,7 @@ function About() {
           Ready to Forecast Smarter?
         </motion.h2>
         <motion.p
-          className="mt-4 text-lg opacity-90"
+          className="mt-4 text-lg text-gray-400"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
@@ -138,8 +141,8 @@ function About() {
         </motion.p>
 
         <motion.button
-          onClick={() => predict()}
-          className="w-70 mt-5 px-10 py-4 bg-blue-500 rounded-xl font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
+          onClick={predict}
+          className="mt-6 px-10 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors shadow-md cursor-pointer"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 300 }}

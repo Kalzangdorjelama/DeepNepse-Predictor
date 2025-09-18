@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner.jsx";
 import { BsSun, BsMoon } from "react-icons/bs";
+import VITE_API_URL from "../api/api.js";
 
 function CandleStickCharts({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
@@ -58,7 +59,7 @@ function CandleStickCharts({ symbol = "NABIL" }) {
     async function fetchData() {
       try {
         const res = await fetch(
-          `https://deepnepse-predictor-3.onrender.com/ohlcv/${symbol}?all_data=true`
+          `${VITE_API_URL}/ohlcv/${symbol}?all_data=true`
         );
         const json = await res.json();
 
