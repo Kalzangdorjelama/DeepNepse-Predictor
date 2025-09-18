@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import "./styles.css";
-import FireText from "./index.js";
+import FireText from "./components/FireText.jsx";
 
 export default function Layout() {
   const linkClass = ({ isActive }) =>
