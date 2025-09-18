@@ -3,8 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 export default function Layout() {
   const linkClass = ({ isActive }) =>
     isActive
-      ? "text-blue-600 font-semibold border-b-2 border-blue-600 font-bold text-xl"
-      : "text-gray-700 hover:text-blue-600 font-bold text-xl";
+      ? "text-blue-600 font-semibold border-b-2 border-blue-600 font-bold"
+      : "text-gray-700 hover:text-blue-600 font-bold";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-50 text-gray-800">
