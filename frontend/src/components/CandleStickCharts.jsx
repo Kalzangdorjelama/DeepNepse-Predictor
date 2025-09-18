@@ -112,7 +112,7 @@ function CandleStickCharts({ symbol = "NABIL" }) {
       {/* Dark Mode Toggle Button */}
       <button
         onClick={() => setDarkMode((prev) => !prev)}
-        className="absolute top-2 right-2 px-4 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer -mt-1 mr-2"
+        className="absolute top-3 right-1 px-4 py-2 bg-blue-900 text-white text-sm z-10 rounded-sm cursor-pointer -mt-1 mr-2"
       >
         {darkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
       </button>
