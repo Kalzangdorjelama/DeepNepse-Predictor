@@ -2,6 +2,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 export default function Layout() {
   const { pathname } = useLocation();
+  // https://deep-nepse-predictor.vercel.app/
 
   const footerBg = pathname === "https://deep-nepse-predictor.vercel.app/features" ? "bg-gray-50" : "bg-gray-100";
   return (
