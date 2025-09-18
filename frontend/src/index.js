@@ -9,6 +9,7 @@ import LoadingSpinner from "./components/LoadingSpinner.jsx"
 import CandleStickCharts from "./components/CandleStickCharts.jsx";
 import Indicator from "./components/Indicator.jsx";
 import VolumeBars from "./components/VolumeBars.jsx";
+import FireText from "./components/FireText.jsx";
 
 export {
     Home,
@@ -21,5 +22,6 @@ export {
     PredictionsSidebar,
     CandleStickCharts,
     Indicator,
-    VolumeBars
+    VolumeBars,
+    FireText
 }

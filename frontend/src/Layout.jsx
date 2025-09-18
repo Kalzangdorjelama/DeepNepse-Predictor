@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
-import "./styles.css"; 
+import "./styles.css";
+import FireText from "./index.js";
 
 export default function Layout() {
   const linkClass = ({ isActive }) =>
@@ -11,9 +12,7 @@ export default function Layout() {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-50 text-gray-800">
       {/* Navbar */}
       <nav className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-10 py-4 sm:py-5 bg-white shadow-md sticky top-0 z-50">
-        <h1 className="text-2xl sm:text-3xl font-bold text-blue-700 relative inline-block fire-text">
-          Deep Nepse
-        </h1>
+        <FireText>Deep Nepse</FireText>
 
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-3 sm:mt-0">
           <NavLink to="/" className={linkClass} end>
