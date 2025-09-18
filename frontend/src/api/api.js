@@ -1,5 +1,5 @@
-// const VITE_API_URL = "https://deepnepse-predictor-3.onrender.com";
-const VITE_API_URL = "http://localhost:8000";
+const VITE_API_URL = "https://deepnepse-predictor-3.onrender.com";
+// const VITE_API_URL = "http://localhost:8000";
 
 
 // Fetch available stock symbols
