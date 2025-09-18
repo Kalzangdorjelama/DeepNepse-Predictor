@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchSymbols } from "../api";
+import { fetchSymbols } from "../api/api.js";
 import { motion } from "framer-motion";
 import "../index.css";
 
