@@ -7,7 +7,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route
-          path="https://deep-nepse-predictor.vercel.app"
+          path="/"
           element={<Home />}
         />
         <Route
