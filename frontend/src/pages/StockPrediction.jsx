@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchPrediction } from "../api";
+import { fetchPrediction } from "../api/api.js";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   LoadingSpinner,

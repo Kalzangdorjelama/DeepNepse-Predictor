@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { createChart, CandlestickSeries, LineSeries } from "lightweight-charts";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { BsSun, BsMoon } from "react-icons/bs";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // ----------------- Indicators -----------------
 function calcSMA(data, period = 14) {
@@ -68,7 +71,7 @@ function Indicator({ symbol = "NABIL" }) {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:8000/ohlcv/${symbol}?all_data=true`
+          `process.env.VITE_API_URL/ohlcv/${symbol}?all_data=true`
         );
         const json = await res.json();
         if (!json.ohlcv || !Array.isArray(json.ohlcv))
