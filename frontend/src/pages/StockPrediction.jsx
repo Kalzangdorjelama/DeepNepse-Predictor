@@ -166,7 +166,7 @@ function StockPrediction() {
       {/* Controls (Back button + Dropdown) */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-8">
         <button
-          onClick={() => navigate("https://deep-nepse-predictor.vercel.app/")}
+          onClick={() => navigate("/")}
           className="px-4 sm:px-5 py-2 flex items-center gap-2 bg-blue-800 backdrop-blur-md rounded-lg shadow hover:bg-blue-500 transition border border-blue-200 hover:border-blue-500 cursor-pointer"
         >
           Back
