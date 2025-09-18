@@ -202,13 +202,13 @@ function Indicator({ symbol = "NABIL" }) {
       {/* Dark Mode Toggle */}
       <button
         onClick={() => setDarkMode((prev) => !prev)}
-        className="absolute top-4 right-9 px-4 py-2 bg-blue-900 text-white rounded text-sm z-10 cursor-pointer"
+        className="absolute top-4 right-3 px-4 py-2 bg-blue-900 text-white rounded text-sm z-10 cursor-pointer"
       >
         {darkMode ? <BsMoon size={20} /> : <BsSun size={20} />}
       </button>
 
       {/* Indicator Legend */}
-      <div className="flex gap-4 mb-2 text-sm font-semibold">
+      <div className="flex gap-4 mb-2 text-sm font-semibold mt-3">
         {(indicator === "SMA" || indicator === "All") && (
           <span className="text-blue-500">SMA (Blue)</span>
         )}
