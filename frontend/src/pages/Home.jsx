@@ -105,7 +105,7 @@ function Home() {
         <button
           onClick={handlePredict}
           disabled={!symbol}
-          className={`w-72 sm:w-auto px-6 py-4 font-semibold rounded-lg sm:rounded-r-lg sm:rounded-l-none text-lg transition-colors duration-200 ${
+          className={`w-72 sm:w-auto px-6 py-4 font-semibold rounded-lg sm:rounded-r-lg sm:rounded-l-none text-lg transition-colors duration-200 cursor-pointer ${
             symbol
               ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md"
               : "bg-gray-700 text-gray-500 cursor-not-allowed"
