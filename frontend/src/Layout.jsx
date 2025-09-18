@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import "../styles.css"; 
+import "./styles.css"; 
 
 export default function Layout() {
   const linkClass = ({ isActive }) =>
