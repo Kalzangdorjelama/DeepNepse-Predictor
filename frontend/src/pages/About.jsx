@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 function About() {
   const navigate = useNavigate();
   function predict() {
-    navigate(`/`);
+    navigate(`https://deep-nepse-predictor.vercel.app/`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

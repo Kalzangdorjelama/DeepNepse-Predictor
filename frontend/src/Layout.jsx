@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 export default function Layout() {
   const { pathname } = useLocation();
 
-  const footerBg = pathname === "/features" ? "bg-gray-50" : "bg-gray-100";
+  const footerBg = pathname === "https://deep-nepse-predictor.vercel.app/features" ? "bg-gray-50" : "bg-gray-100";
   return (
     <div className="bg-gradient-to-b from-blue-50 to-gray-50 text-gray-800 min-h-screen">
       {/* Navbar */}
@@ -12,7 +12,7 @@ export default function Layout() {
 
         <div className="hidden md:flex space-x-8 font-medium text-xl">
           <NavLink
-            to="/"
+            to="https://deep-nepse-predictor.vercel.app/"
             className={({ isActive }) =>
               isActive ? "text-blue-600 font-bold" : "hover:text-blue-600"
             }
@@ -20,7 +20,7 @@ export default function Layout() {
             Home
           </NavLink>
           <NavLink
-            to="/features"
+            to="https://deep-nepse-predictor.vercel.app/features"
             className={({ isActive }) =>
               isActive ? "text-blue-600 font-bold" : "hover:text-blue-600"
             }
@@ -28,7 +28,7 @@ export default function Layout() {
             Features
           </NavLink>
           <NavLink
-            to="/about"
+            to="https://deep-nepse-predictor.vercel.app/about"
             className={({ isActive }) =>
               isActive ? "text-blue-600 font-bold" : "hover:text-blue-600"
             }

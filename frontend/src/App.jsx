@@ -6,11 +6,23 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="https://deep-nepse-predictor.vercel.app/"
+          element={<Home />}
+        />
+        <Route
+          path="https://deep-nepse-predictor.vercel.app/features"
+          element={<Features />}
+        />
+        <Route
+          path="https://deep-nepse-predictor.vercel.app/about"
+          element={<About />}
+        />
       </Route>
-      <Route path="/stock/:symbol" element={<StockPrediction />} />
+      <Route
+        path="https://deep-nepse-predictor.vercel.app/stock/:symbol"
+        element={<StockPrediction />}
+      />
     </Routes>
   );
 }

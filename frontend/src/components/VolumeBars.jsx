@@ -4,11 +4,8 @@ import {
   CandlestickSeries,
   HistogramSeries,
 } from "lightweight-charts";
-import { LoadingSpinner } from "./LoadingSpinner";
+import { LoadingSpinner } from "./LoadingSpinner.jsx";
 import { BsSun, BsMoon } from "react-icons/bs";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 function VolumeBars({ symbol = "NABIL" }) {
   const chartContainerRef = useRef(null);
@@ -71,7 +68,7 @@ function VolumeBars({ symbol = "NABIL" }) {
     async function fetchData() {
       try {
         const res = await fetch(
-          `process.env.VITE_API_URL/ohlcv/${symbol}?all_data=true`
+          `https://deepnepse-predictor-3.onrender.com/ohlcv/${symbol}?all_data=true`
         );
         const json = await res.json();
 
