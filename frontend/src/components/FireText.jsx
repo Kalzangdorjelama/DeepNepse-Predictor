@@ -16,7 +16,7 @@ export default function FireText({ children }) {
   return (
     <animated.h1
       style={fireAnimation}
-      className="text-2xl sm:text-3xl font-bold text-orange-500 relative inline-block"
+      className="text-2xl sm:text-3xl font-bold text-blue-500 relative inline-block"
     >
       {children}
     </animated.h1>
