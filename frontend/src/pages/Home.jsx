@@ -13,6 +13,7 @@ function Home() {
 
   useEffect(() => {
     let isMounted = true;
+
     async function loadSymbols() {
       try {
         const data = await fetchSymbols();
@@ -20,16 +21,14 @@ function Home() {
 
         if (isMounted) {
           setSymbols(data.symbols || []);
-          // only stop loading if we actually got symbols
-          if (data.symbols && data.symbols.length > 0) {
-            setLoading(false);
-          }
+          setLoading(false); // always stop loading
         }
       } catch (err) {
         console.error("Error fetching symbols:", err);
-        if (isMounted) setLoading(false); // stop spinner even on error
+        if (isMounted) setLoading(false);
       }
     }
+
     loadSymbols();
     return () => (isMounted = false);
   }, []);
