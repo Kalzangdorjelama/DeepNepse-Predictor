@@ -16,6 +16,10 @@ function Home() {
     async function loadSymbols() {
       try {
         const data = await fetchSymbols();
+        console.log("DATA: ", data.symbols);
+        if (data.symbol) {
+          setLoading(false);
+        }
         if (isMounted) setSymbols(data.symbols || []);
       } catch (err) {
         console.error("Error fetching symbols:", err);
@@ -82,8 +86,6 @@ function Home() {
           </motion.p>
         </motion.div>
       </motion.section>
-
-      {/* Stock Selector Card */}
 
       {/* Dropdown + Button Wrapper */}
       <div className="-mt-10 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative">
