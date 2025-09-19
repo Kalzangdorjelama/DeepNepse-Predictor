@@ -17,14 +17,17 @@ function Home() {
       try {
         const data = await fetchSymbols();
         console.log("DATA: ", data.symbols);
-        if (data.symbol) {
-          setLoading(false);
+
+        if (isMounted) {
+          setSymbols(data.symbols || []);
+          // only stop loading if we actually got symbols
+          if (data.symbols && data.symbols.length > 0) {
+            setLoading(false);
+          }
         }
-        if (isMounted) setSymbols(data.symbols || []);
       } catch (err) {
         console.error("Error fetching symbols:", err);
-      } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) setLoading(false); // stop spinner even on error
       }
     }
     loadSymbols();
