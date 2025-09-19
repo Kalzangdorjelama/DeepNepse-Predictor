@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchSymbols } from "../api/api.js";
 import { motion } from "framer-motion";
 import "../index.css";
+import { LoadingSpinner } from "../index.js";
 
 function Home() {
   const [symbols, setSymbols] = useState([]);
@@ -87,19 +88,26 @@ function Home() {
       {/* Dropdown + Button Wrapper */}
       <div className="-mt-10 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative">
         {/* Dropdown */}
-        <select
-          disabled={loading || !symbols.length}
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
-          className="w-72 sm:w-80 px-4 py-4 bg-gray-800 text-white rounded-lg sm:rounded-l-lg sm:rounded-r-none cursor-pointer text-lg sm:text-xl font-mono border border-gray-700"
-        >
-          <option value="">Select a Stock</option>
-          {symbols.map((s, i) => (
-            <option key={i} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+        {loading ? (
+          // Show spinner while loading
+          <div className="flex justify-center items-center w-72 sm:w-80 h-[60px] bg-gray-800 rounded-lg border border-gray-700">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <select
+            disabled={!symbols.length}
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            className="w-72 sm:w-80 px-4 py-4 bg-gray-800 text-white rounded-lg sm:rounded-l-lg sm:rounded-r-none cursor-pointer text-lg sm:text-xl font-mono border border-gray-700"
+          >
+            <option value="">Select a Stock</option>
+            {symbols.map((s, i) => (
+              <option key={i} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        )}
 
         {/* Predict Button */}
         <button
