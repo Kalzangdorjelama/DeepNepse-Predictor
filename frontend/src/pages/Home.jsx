@@ -89,7 +89,7 @@ function Home() {
       <div className="-mt-10 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative">
         {/* Dropdown */}
         {loading ? (
-          // Show spinner while loading
+          // Show spinner while fetching
           <div className="flex justify-center items-center w-72 sm:w-80 h-[60px] bg-gray-800 rounded-lg border border-gray-700">
             <LoadingSpinner />
           </div>
@@ -112,9 +112,9 @@ function Home() {
         {/* Predict Button */}
         <button
           onClick={handlePredict}
-          disabled={!symbol}
+          disabled={!symbol || loading}
           className={`w-72 sm:w-auto px-6 py-4 font-semibold rounded-lg sm:rounded-r-lg sm:rounded-l-none text-lg transition-colors duration-200 cursor-pointer ${
-            symbol
+            !loading && symbol
               ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md"
               : "bg-gray-700 text-gray-500 cursor-not-allowed"
           }`}
