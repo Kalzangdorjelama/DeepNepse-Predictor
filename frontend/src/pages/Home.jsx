@@ -71,23 +71,27 @@ function Home() {
         {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-700 rounded-full blur-3xl opacity-20"></div>
 
-        <motion.div className="relative z-10" variants={item}>
-          <motion.h2
-            className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight"
-            variants={item}
+        <motion.h2
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight"
+          animate={{
+            y: [0, -10, 0], // bubbling effect (up and down)
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          NEPSE Predictions <br />
+          with{" "}
+          <motion.span
+            className="text-purple-500"
+            animate={{ y: [0, -8, 0] }} // AI Insights bubbles slightly too
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           >
-            NEPSE Predictions <br />
-            with <span className="text-purple-500">AI Insights</span>
-          </motion.h2>
-
-          <motion.p
-            className="mt-6 text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto"
-            variants={item}
-          >
-            Stay ahead in the Nepal Stock Exchange with real-time AI-powered
-            forecasts. Make decisions with confidence.
-          </motion.p>
-        </motion.div>
+            AI Insights
+          </motion.span>
+        </motion.h2>
       </motion.section>
 
       {/* Dropdown + Button Wrapper */}
