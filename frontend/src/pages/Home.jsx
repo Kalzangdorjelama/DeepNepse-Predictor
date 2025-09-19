@@ -95,7 +95,7 @@ function Home() {
       </motion.section>
 
       {/* Dropdown + Button Wrapper */}
-      <div className="-mt-10 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative">
+      <div className="mt-17 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative mb-8">
         {/* Dropdown */}
         {loading ? (
           // Show spinner while fetching
