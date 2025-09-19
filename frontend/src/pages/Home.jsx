@@ -16,15 +16,18 @@ function Home() {
     async function loadSymbols() {
       try {
         const data = await fetchSymbols();
+        console.log("DATA: ", data.symbols);
+
         if (isMounted) {
           setSymbols(data.symbols || []);
+          // only stop loading if we actually got symbols
           if (data.symbols && data.symbols.length > 0) {
             setLoading(false);
           }
         }
       } catch (err) {
         console.error("Error fetching symbols:", err);
-        if (isMounted) setLoading(false);
+        if (isMounted) setLoading(false); // stop spinner even on error
       }
     }
     loadSymbols();
@@ -66,18 +69,24 @@ function Home() {
         variants={container}
       >
         {/* Background Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-700 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-700 rounded-full blur-3xl opacity-20"></div>
 
         <motion.h2
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={{
+            y: [0, -10, 0], // bubbling effect (up and down)
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
           NEPSE Predictions <br />
           with{" "}
           <motion.span
             className="text-purple-500"
-            animate={{ y: [0, -8, 0] }}
+            animate={{ y: [0, -8, 0] }} // AI Insights bubbles slightly too
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
           >
             AI Insights
@@ -86,18 +95,19 @@ function Home() {
       </motion.section>
 
       {/* Dropdown + Button Wrapper */}
-      <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative mb-8 px-4 sm:px-0">
+      <div className="mt-17 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative mb-8">
         {/* Dropdown */}
         {loading ? (
-          <div className="flex justify-center items-center w-full sm:w-72 h-[60px] bg-gray-800 rounded-lg border border-gray-700">
+          // Show spinner while fetching
+          <div className="flex justify-center items-center w-72 sm:w-80 h-[60px] bg-gray-800 rounded-lg border border-gray-700">
             <LoadingSpinner />
           </div>
         ) : (
           <select
-            disabled={symbols.length === 0}
+            disabled={!symbols.length}
             value={symbol}
             onChange={(e) => setSymbol(e.target.value)}
-            className="relative z-10 w-full sm:w-72 px-4 py-3 bg-gray-800 text-white rounded-lg sm:rounded-l-lg sm:rounded-r-none cursor-pointer text-lg sm:text-xl font-mono border border-gray-700 appearance-none focus:outline-none"
+            className="w-72 sm:w-80 px-4 py-4 bg-gray-800 text-white rounded-lg sm:rounded-l-lg sm:rounded-r-none cursor-pointer text-lg sm:text-xl font-mono border border-gray-700"
           >
             <option value="">Select a Stock</option>
             {symbols.map((s, i) => (
@@ -112,9 +122,9 @@ function Home() {
         <button
           onClick={handlePredict}
           disabled={!symbol || loading}
-          className={`w-full sm:w-auto px-6 py-3 font-semibold rounded-lg sm:rounded-r-lg sm:rounded-l-none text-lg transition-colors duration-200 ${
+          className={`w-72 sm:w-auto px-6 py-4 font-semibold rounded-lg sm:rounded-r-lg sm:rounded-l-none text-lg transition-colors duration-200 cursor-pointer ${
             !loading && symbol
-              ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md cursor-pointer"
+              ? "bg-purple-600 text-white hover:bg-purple-700 shadow-md"
               : "bg-gray-700 text-gray-500 cursor-not-allowed"
           }`}
         >
