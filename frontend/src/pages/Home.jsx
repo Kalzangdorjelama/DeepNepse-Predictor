@@ -92,9 +92,17 @@ function Home() {
           </motion.span>
         </motion.h2>
       </motion.section>
+      <div className="text-center mt-10 text-red-500">
+        {loading ? (
+          <div>
+            Please wait a minute it take maximum 1 minute to load the stock in
+            first time only
+          </div>
+        ) : null}
+      </div>
 
       {/* Dropdown + Button Wrapper */}
-      <div className="mt-17 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative mb-8">
+      <div className="mt-2 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-0 relative mb-8">
         {/* Dropdown */}
         {loading ? (
           // Show spinner while fetching
