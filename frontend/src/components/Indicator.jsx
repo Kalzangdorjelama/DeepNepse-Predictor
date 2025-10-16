@@ -70,6 +70,7 @@ function Indicator({ symbol = "NABIL" }) {
       try {
         const res = await fetch(`${VITE_API_URL}/ohlcv/${symbol}?all_data=true`);
         const json = await res.json();
+        console.log("OHLCV :",json.ohlcv)
         if (!json.ohlcv || !Array.isArray(json.ohlcv))
           throw new Error("Invalid OHLCV");
 
