@@ -23,14 +23,12 @@ export default function Layout() {
           sticky top-0 z-50
           border border-gray-800/40
           bg-gradient-to-r from-gray-900/70 via-gray-800/60 to-gray-900/70 
-          backdrop-blur-2xl 
-        
-          shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
+          backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
       >
         {/* Logo */}
-        <FireText className="text-white text-2xl sm:text-3xl font-extrabold drop-shadow-[0_2px_10px_rgba(168,85,247,0.7)]">
+        <div className="text-2xl sm:text-3xl font-extrabold text-blue-500">
           Deep Nepse
-        </FireText>
+        </div>
 
         {/* Desktop Links */}
         <div className="hidden sm:flex gap-8 items-center">
