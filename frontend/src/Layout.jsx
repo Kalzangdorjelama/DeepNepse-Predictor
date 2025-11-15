@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
@@ -14,7 +14,7 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-200">
-      {/* ================= NAVBAR ================= */}
+      {/* ================= NAVBAR CONTENT ================= */}
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -26,9 +26,15 @@ export default function Layout() {
           backdrop-blur-2xl shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
       >
         {/* Logo */}
-        <div className="text-2xl sm:text-3xl font-extrabold text-blue-500">
-          Deep Nepse
-        </div>
+        <Link to="/">
+          <motion.span
+            className="text-purple-500 text-2xl sm:text-3xl font-extrabold font-bold tracking-wide"
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            Deep Nepse
+          </motion.span>
+        </Link>
 
         {/* Desktop Links */}
         <div className="hidden sm:flex gap-8 items-center">
@@ -91,7 +97,7 @@ export default function Layout() {
 
           <button
             onClick={() => setMenuOpen(false)}
-            className="mt-2 px-8 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold shadow-[0_4px_15px_rgba(139,92,246,0.6)] hover:scale-105 hover:shadow-[0_6px_25px_rgba(139,92,246,0.8)] transition-transform duration-300"
+            className="mt-2 px-8 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold shadow-[0_4px_15px_rgba(139,92,246,0.6)] hover:scale-105 hover:shadow-[0_6px_25px_rgba(139,92,246,0.8)] transition-transform duration-300 cursor-pointer"
           >
             Get Started
           </button>
@@ -103,7 +109,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      {/* ================= FOOTER ================= */}
+      {/* ================= FOOTER CONTENT ================= */}
       <footer className="bg-gray-900 border-t border-gray-800 py-6 text-center text-gray-400 shadow-inner">
         <p>© {new Date().getFullYear()} Deep Nepse. All rights reserved.</p>
       </footer>

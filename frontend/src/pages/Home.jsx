@@ -94,7 +94,7 @@ function Home() {
       </motion.section>
       <div className="text-center mt-10 text-red-500">
         {loading ? (
-          <div>
+          <div className="text-[10px] md:text-[20px] px-4">
             Please wait a minute it take maximum 1 minute to load the stock in
             first time only
           </div>
@@ -141,7 +141,7 @@ function Home() {
 
       {/* Call to Action */}
       <motion.section
-        className="mt-20 sm:mt-28 py-16 text-center bg-gray-900 border border-gray-800 text-gray-100 mx-4 sm:mx-10 rounded-xl shadow-lg"
+        className="mt-10 sm:mt-28 py-16 text-center bg-gray-900 border border-gray-800 text-gray-100 shadow-lg mb-20"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
