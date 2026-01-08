@@ -42,6 +42,13 @@ function Home() {
     if (section) section.scrollIntoView({ behavior: "smooth" });
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
   // Motion variants
   const container = {
     hidden: { opacity: 0 },
@@ -69,6 +76,16 @@ function Home() {
       >
         {/* Background Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-700 rounded-full blur-3xl opacity-20"></div>
+
+        {/* Greeting Message */}
+        <motion.p
+          className="text-xl sm:text-2xl text-purple-300 mb-4 font-light"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {getGreeting()}! Welcome to Deep Nepse
+        </motion.p>
 
         <motion.h2
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight"
